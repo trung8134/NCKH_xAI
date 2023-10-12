@@ -1,26 +1,16 @@
 from tensorflow import keras
-from keras import layers
 
-# Định nghĩa lớp phân loại neuron
-def create_classifier(encoder, input_shape, hidden_units, activation, dropout_rate, num_classes, learning_rate, trainable=True):
+# Define Classifier layers neuron
+def create_classifier(class_count, hidden_layer, dropout_rate):
+    classifier = keras.Sequential([
+        keras.layers.BatchNormalization(axis= -1, momentum= 0.99, epsilon= 0.001),
+        keras.layers.Dense(hidden_layer, 
+        kernel_regularizer = keras.regularizers.l2(l= 0.016), 
+        activity_regularizer = keras.regularizers.l1(0.006),
+        bias_regularizer = keras.regularizers.l1(0.006), 
+        activation = 'relu'),
+        keras.layers.Dropout(rate= dropout_rate, seed= 123),
+        keras.layers.Dense(class_count, activation= 'softmax')
+        ])
 
-    # Đóng băng các layers của encoder với trainable = False
-    for layer in encoder.layers:
-        layer.trainable = trainable
-
-    inputs = keras.Input(shape=input_shape)
-    features = encoder(inputs)
-    features = layers.Flatten()(features)
-    features = layers.Dense(hidden_units, activation = activation)(features)
-    features = layers.Dropout(dropout_rate)(features)
-    features = layers.Dense(hidden_units, activation = activation)(features)
-    features = layers.Dropout(dropout_rate)(features)
-    outputs = layers.Dense(num_classes, activation="softmax")(features)
-
-    model = keras.Model(inputs=inputs, outputs=outputs, name="Classifier")
-    model.compile(
-        optimizer = keras.optimizers.Adam(learning_rate = learning_rate),
-        loss=keras.losses.CategoricalCrossentropy(),
-        metrics=[keras.metrics.CategoricalAccuracy()],
-    )
-    return model
+    return classifier
