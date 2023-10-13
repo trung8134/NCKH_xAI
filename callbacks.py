@@ -28,7 +28,7 @@ class MyCallback(keras.callbacks.Callback):
         self.initial_weights = self.model.get_weights()   # save initial weights if they have to get restored
 
     # Define a function that will run when train begins
-    def on_train_begin(self, logs= None):
+    def on_train_begin(self, logs=None):
         msg = 'Do you want model asks you to halt the training [y/n] ?'
         print(msg)
         ans = input('')
@@ -42,7 +42,7 @@ class MyCallback(keras.callbacks.Callback):
         self.start_time = time.time()
 
 
-    def on_train_end(self, logs= None):
+    def on_train_end(self, logs=None):
         stop_time = time.time()
         tr_duration = stop_time - self.start_time
         hours = tr_duration // 3600
@@ -56,22 +56,22 @@ class MyCallback(keras.callbacks.Callback):
         self.model.set_weights(self.best_weights)
 
 
-    def on_train_batch_end(self, batch, logs= None):
+    def on_train_batch_end(self, batch, logs=None):
         # get batch accuracy and loss
         acc = logs.get('accuracy') * 100
         loss = logs.get('loss')
 
         # prints over on the same line to show running batch count
         msg = '{0:20s}processing batch {1:} of {2:5s}-   accuracy=  {3:5.3f}   -   loss: {4:8.5f}'.format(' ', str(batch), str(self.batches), acc, loss)
-        print(msg, '\r', end= '')
+        print(msg, '\r', end='')
 
 
-    def on_epoch_begin(self, epoch, logs= None):
+    def on_epoch_begin(self, epoch, logs=None):
         self.ep_start = time.time()
 
 
     # Define method runs on the end of each epoch
-    def on_epoch_end(self, epoch, logs= None):
+    def on_epoch_end(self, epoch, logs=None):
         ep_end = time.time()
         duration = ep_end - self.ep_start
 

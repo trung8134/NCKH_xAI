@@ -4,7 +4,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 ## Function to create data frame
-
 # Generate data paths with labels
 def define_paths(data_dir):
     filepaths = []
@@ -56,6 +55,7 @@ def create_gens(train_df, valid_df, test_df, batch_size):
     img_shape = (img_size[0], img_size[1], channels)
 
     # Recommended : use custom function for test data batch size, else we can use normal batch size.
+    # Find the smallest batch number with the number in the batch not exceeding 80 
     ts_length = len(test_df)
     test_batch_size = max(sorted([ts_length // n for n in range(1, ts_length + 1) if ts_length%n == 0 and ts_length/n <= 80]))
     test_steps = ts_length // test_batch_size
