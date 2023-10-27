@@ -8,7 +8,11 @@ def EfficientNetB0_model(img_shape, class_count, hidden_layer, dropout_rate):
     input_layer = layers.Input(shape=img_shape)
     
     base_model = efficientnet.EfficientNetB0(include_top=False, weights="imagenet", pooling='max')
-    x = base_model(input_layer)
+    x = input_layer
+
+    # Full layer in base model
+    for layer in base_model.layers:
+        x = layer(x)
     
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(hidden_layer, 
@@ -30,7 +34,11 @@ def MobileNetV1_model(img_shape, class_count, hidden_layer, dropout_rate):
     input_layer = layers.Input(shape=img_shape)
     
     base_model = mobilenet.MobileNet(include_top=False, weights="imagenet", pooling='max')
-    x = base_model(input_layer)
+    x = input_layer
+
+    # Full layer in base model
+    for layer in base_model.layers:
+        x = layer(x)
     
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(hidden_layer, 
@@ -52,7 +60,11 @@ def InceptionV3_model(img_shape, class_count, hidden_layer, dropout_rate):
     input_layer = layers.Input(shape=img_shape)
     
     base_model = inception_v3.InceptionV3(include_top=False, weights="imagenet", pooling='max')
-    x = base_model(input_layer)
+    x = input_layer
+
+    # Full layer in base model
+    for layer in base_model.layers:
+        x = layer(x)
     
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(hidden_layer, 
@@ -74,7 +86,11 @@ def ResNet50_model(img_shape, class_count, hidden_layer, dropout_rate):
     input_layer = layers.Input(shape=img_shape)
     
     base_model = resnet50.ResNet50(include_top=False, weights="imagenet", pooling='max')
-    x = base_model(input_layer)
+    x = input_layer
+
+    # Full layer in base model
+    for layer in base_model.layers:
+        x = layer(x)
     
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(hidden_layer, 
@@ -96,7 +112,11 @@ def VGG16_model(img_shape, class_count, hidden_layer, dropout_rate):
     input_layer = layers.Input(shape=img_shape)
     
     base_model = vgg16.VGG16(include_top=False, weights="imagenet", pooling='max')
-    x = base_model(input_layer)
+    x = input_layer
+
+    # Full layer in base model
+    for layer in base_model.layers:
+        x = layer(x)
     
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(hidden_layer, 
