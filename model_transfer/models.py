@@ -5,10 +5,13 @@ from keras.models import Model
 
 # EfficientNet
 def EfficientNetB0_model(img_shape, class_count, hidden_layer, dropout_rate):
-    input_layer = layers.Input(shape=img_shape)
+    base_model = keras.applications.efficientnet.EfficientNetB0(include_top=False, weights="imagenet")
     
-    base_model = efficientnet.EfficientNetB0(include_top=False, weights="imagenet")
-    x = base_model(input_layer)
+    x = input_layer = layers.Input(shape=img_shape)
+    
+    for layer in base_model.layers:
+        x = layer(x)
+    
     x = layers.GlobalAveragePooling2D()(x)
     
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
@@ -28,10 +31,13 @@ def EfficientNetB0_model(img_shape, class_count, hidden_layer, dropout_rate):
 
 # MobileNet
 def MobileNetV1_model(img_shape, class_count, hidden_layer, dropout_rate):
-    input_layer = layers.Input(shape=img_shape)
+    base_model = keras.applications.mobilenet.MobileNet(include_top=False, weights="imagenet")
     
-    base_model = mobilenet.MobileNet(include_top=False, weights="imagenet")
-    x = base_model(input_layer)
+    x = input_layer = layers.Input(shape=img_shape)
+    
+    for layer in base_model.layers:
+        x = layer(x)
+    
     x = layers.GlobalAveragePooling2D()(x)
     
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
@@ -51,10 +57,13 @@ def MobileNetV1_model(img_shape, class_count, hidden_layer, dropout_rate):
 
 # Inception
 def InceptionV3_model(img_shape, class_count, hidden_layer, dropout_rate):
-    input_layer = layers.Input(shape=img_shape)
+    base_model = keras.applications.inception_v3.InceptionV3(include_top=False, weights="imagenet")
     
-    base_model = inception_v3.InceptionV3(include_top=False, weights="imagenet")
-    x = base_model(input_layer)
+    x = input_layer = layers.Input(shape=img_shape)
+    
+    for layer in base_model.layers:
+        x = layer(x)
+    
     x = layers.GlobalAveragePooling2D()(x)
     
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
@@ -74,10 +83,13 @@ def InceptionV3_model(img_shape, class_count, hidden_layer, dropout_rate):
 
 # ResNet
 def ResNet50_model(img_shape, class_count, hidden_layer, dropout_rate):
-    input_layer = layers.Input(shape=img_shape)
+    base_model = keras.applications.resnet50.ResNet50(include_top=False, weights="imagenet")
     
-    base_model = resnet50.ResNet50(include_top=False, weights="imagenet")
-    x = base_model(input_layer)
+    x = input_layer = layers.Input(shape=img_shape)
+    
+    for layer in base_model.layers:
+        x = layer(x)
+    
     x = layers.GlobalAveragePooling2D()(x)
     
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
@@ -97,10 +109,13 @@ def ResNet50_model(img_shape, class_count, hidden_layer, dropout_rate):
 
 # VGG
 def VGG16_model(img_shape, class_count, hidden_layer, dropout_rate):
-    input_layer = layers.Input(shape=img_shape)
+    base_model = keras.applications.vgg16.VGG16(include_top=False, weights="imagenet")
     
-    base_model = vgg16.VGG16(include_top=False, weights="imagenet")
-    x = base_model(input_layer)
+    x = input_layer = layers.Input(shape=img_shape)
+    
+    for layer in base_model.layers:
+        x = layer(x)
+    
     x = layers.GlobalAveragePooling2D()(x)
     
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
