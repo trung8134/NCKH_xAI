@@ -13,7 +13,7 @@ def EfficientNetB0_model(img_shape, class_count, hidden_layer, dropout_rate):
     last_layer = base_model.get_layer('top_conv')
     last_output = last_layer.output
     
-    x = layers.Flatten()(last_output)
+    x = layers.GlobalAveragePooling2D()(last_output)
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(hidden_layer, 
                      kernel_regularizer=keras.regularizers.l2(l=0.016), 
@@ -21,7 +21,6 @@ def EfficientNetB0_model(img_shape, class_count, hidden_layer, dropout_rate):
                      bias_regularizer=keras.regularizers.l1(0.006), 
                      activation='relu')(x)
     x = layers.Dropout(rate=dropout_rate, seed=123)(x)
-    x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
@@ -40,7 +39,7 @@ def MobileNetV1_model(img_shape, class_count, hidden_layer, dropout_rate):
     last_layer = base_model.get_layer('conv_pw_13')
     last_output = last_layer.output
     
-    x = layers.Flatten()(last_output)
+    x = layers.GlobalAveragePooling2D()(last_output)
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(hidden_layer, 
                      kernel_regularizer=keras.regularizers.l2(l=0.016), 
@@ -48,7 +47,6 @@ def MobileNetV1_model(img_shape, class_count, hidden_layer, dropout_rate):
                      bias_regularizer=keras.regularizers.l1(0.006), 
                      activation='relu')(x)
     x = layers.Dropout(rate=dropout_rate, seed=123)(x)
-    x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
@@ -66,7 +64,7 @@ def InceptionV3_model(img_shape, class_count, hidden_layer, dropout_rate):
     last_layer = base_model.get_layer('mixed7')
     last_output = last_layer.output
     
-    x = layers.Flatten()(last_output)
+    x = layers.GlobalAveragePooling2D()(last_output)
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(hidden_layer, 
                      kernel_regularizer=keras.regularizers.l2(l=0.016), 
@@ -74,7 +72,6 @@ def InceptionV3_model(img_shape, class_count, hidden_layer, dropout_rate):
                      bias_regularizer=keras.regularizers.l1(0.006), 
                      activation='relu')(x)
     x = layers.Dropout(rate=dropout_rate, seed=123)(x)
-    x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
@@ -92,7 +89,7 @@ def ResNet50_model(img_shape, class_count, hidden_layer, dropout_rate):
     last_layer = base_model.get_layer('conv5_block3_3_conv')
     last_output = last_layer.output
     
-    x = layers.Flatten()(last_output)
+    x = layers.GlobalAveragePooling2D()(last_output)
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(hidden_layer, 
                      kernel_regularizer=keras.regularizers.l2(l=0.016), 
@@ -100,7 +97,6 @@ def ResNet50_model(img_shape, class_count, hidden_layer, dropout_rate):
                      bias_regularizer=keras.regularizers.l1(0.006), 
                      activation='relu')(x)
     x = layers.Dropout(rate=dropout_rate, seed=123)(x)
-    x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
@@ -118,7 +114,7 @@ def VGG16_model(img_shape, class_count, hidden_layer, dropout_rate):
     last_layer = base_model.get_layer('block5_conv3')
     last_output = last_layer.output
     
-    x = layers.Flatten()(last_output)
+    x = layers.GlobalAveragePooling2D()(last_output)
     x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(hidden_layer, 
                      kernel_regularizer=keras.regularizers.l2(l=0.016), 
@@ -126,7 +122,6 @@ def VGG16_model(img_shape, class_count, hidden_layer, dropout_rate):
                      bias_regularizer=keras.regularizers.l1(0.006), 
                      activation='relu')(x)
     x = layers.Dropout(rate=dropout_rate, seed=123)(x)
-    x = layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
