@@ -166,7 +166,7 @@ class MyCallback(keras.callbacks.Callback):
                             self.ask_epoch += ans
                             msg = f' training will continue until epoch {str(self.ask_epoch)}'
                             print(msg)
-                            msg = '{0:^8s}{1:^10s}{2:^9s}{3:^9s}{4:^9s}{5:^9s}{6:^9s}{7:^10s}{8:10s}{9:^8s}'.format('Epoch', 'Loss', 'Accuracy', 'V_loss', 'V_acc', 'LR', 'Next LR', 'Monitor', '% Improv', 'Duration')
+                            msg = '{0:^8s}{1:^10s}{2:^9s}{3:^9s}{4:^9s}{5:^9s}{6:^9s}{7:^10s}{8:10s}{9:^8s}'.format('Epoch ', 'Loss ', 'Accuracy ', 'V_loss ', 'V_acc ', 'LR ', 'Next LR ', 'Monitor ', '% Improv ', 'Duration ')
                             print(msg)
 
                         except Exception:
