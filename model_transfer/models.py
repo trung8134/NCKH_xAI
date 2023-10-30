@@ -18,7 +18,7 @@ def EfficientNetV2B0_model(img_shape, class_count):
     
     model = Model(base_model.input, x) 
 
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=keras.optimizers.RMSprop(learning_rate=0.016, momentum=0.9, weight_decay=0.00004), loss='categorical_crossentropy', metrics=['accuracy'])
     
     return model
 
@@ -36,7 +36,7 @@ def InceptionV3_model(img_shape, class_count):
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=keras.optimizers.RMSprop(learning_rate=0.045, momentum=0.9, weight_decay=0.00004), loss='categorical_crossentropy', metrics=['accuracy'])
     
     return model
 
@@ -54,7 +54,7 @@ def ResNet50_model(img_shape, class_count):
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.01, momentum=0.9, weight_decay=0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
     
     return model
 
@@ -73,6 +73,6 @@ def VGG16_model(img_shape, class_count):
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=keras.optimizers.SGD(learning_rate=0.01, momentum=0.9, weight_decay=0.0005), loss='categorical_crossentropy', metrics=['accuracy'])
     
     return model
