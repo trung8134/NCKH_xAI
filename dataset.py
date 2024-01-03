@@ -28,7 +28,7 @@ def define_df(files, classes):
     Lseries = pd.Series(classes, name='labels')
     return pd.concat([Fseries, Lseries], axis= 1)
 
-# Split dataframe to train, valid, and test: 80/10/10
+# Split dataframe to train, valid, and test: 60/20/20
 def split_data(data_dir):
     # train dataframe
     files, classes = define_paths(data_dir)
