@@ -28,7 +28,7 @@ def define_df(files, classes):
     Lseries = pd.Series(classes, name='labels')
     return pd.concat([Fseries, Lseries], axis= 1)
 
-# Split dataframe to train, valid, and test: 60/20/20
+# Split dataframe to train, valid, and test: 80/10/10
 def split_data(data_dir):
     # train dataframe
     files, classes = define_paths(data_dir)
@@ -59,16 +59,13 @@ def create_gens(train_df, valid_df, test_df, batch_size, img_size, model_name):
 
     # This function which will be used in image data generator for data augmentation, it just take the image and return it again.
     def scalar(img):
-        if model_name == 'EfficientNetV2B0':
-            img = tf.keras.applications.efficientnet.preprocess_input(img)
-        if model_name == 'InceptionV3':
-            img = tf.keras.applications.inception_v3.preprocess_input(img)
         if model_name == 'ResNet50':
-            img = tf.keras.applications.resnet50.preprocess_input(img)
+            return tf.keras.applications.resnet50.preprocess_input(img)
         if model_name == 'VGG16':
-            img = tf.keras.applications.vgg16.preprocess_input(img)
-            
-        return img
+            return tf.keras.applications.vgg16.preprocess_input(img)
+        if model_name == 'MobileViT':
+            img = tf.image.random_flip_left_right(img)
+            return img   
 
     tr_gen = ImageDataGenerator(preprocessing_function= scalar)
     ts_gen = ImageDataGenerator(preprocessing_function= scalar)
