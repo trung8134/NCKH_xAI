@@ -34,7 +34,7 @@ def split_data(data_dir):
     files, classes = define_paths(data_dir)
     df = define_df(files, classes)
     strat = df['labels']
-    train_df, dummy_df = train_test_split(df,  train_size= 0.6, shuffle= True, random_state= 123, stratify= strat)
+    train_df, dummy_df = train_test_split(df,  train_size= 0.8, shuffle= True, random_state= 123, stratify= strat)
 
     # valid and test dataframe
     strat = dummy_df['labels']
