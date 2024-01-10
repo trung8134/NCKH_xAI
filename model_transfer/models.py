@@ -13,14 +13,6 @@ def MobileViT_S(input_shape, class_count):
     dim = [144, 192, 240]
     expansion_ratio = 4
 
-    MobileViT(
-        input_shape,
-        num_channels,
-        dim,
-        expansion_ratio,
-        num_classes=class_count
-    )
-    
     model = MobileViT(
         input_shape,
         num_channels,
@@ -38,14 +30,7 @@ def MobileViT_XS(input_shape, class_count):
     dim = [96, 120, 144]
     expansion_ratio = 4
 
-    MobileViT(
-        input_shape,
-        num_channels,
-        dim,
-        expansion_ratio,
-        num_classes=class_count
-    )
-    
+
     model = MobileViT(
         input_shape,
         num_channels,
