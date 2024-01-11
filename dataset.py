@@ -64,14 +64,10 @@ def create_gens(train_df, valid_df, test_df, batch_size, img_size, model_name):
         if model_name == 'VGG16':
             return tf.keras.applications.vgg16.preprocess_input(img)
         if model_name == 'MobileViT':
-            img = img / 255.0
+            img = tf.image.random_flip_left_right(img)
             return img   
 
-    tr_gen = ImageDataGenerator(preprocessing_function= scalar, 
-                                rotation_range=20,
-                                width_shift_range=0.2,
-                                height_shift_range=0.2,
-                                horizontal_flip=True,)
+    tr_gen = ImageDataGenerator(preprocessing_function= scalar)
     ts_gen = ImageDataGenerator(preprocessing_function= scalar)
 
     train_gen = tr_gen.flow_from_dataframe(train_df, x_col= 'filepaths', y_col= 'labels', target_size= img_size, class_mode= 'categorical',

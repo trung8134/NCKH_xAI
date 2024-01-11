@@ -1,11 +1,12 @@
 # Callbacks : Helpful functions to help optimize model training
 # Examples: stop model training after specfic time, stop training if no improve in accuracy and so on.
 from tensorflow import keras
+from keras.callbacks import ModelCheckpoint
 import numpy as np
 import time
 
 class MyCallback(keras.callbacks.Callback):
-    def __init__(self, model, patience, stop_patience, threshold, factor, batches, epochs, ask_epoch):
+    def __init__(self, model, patience, stop_patience, threshold, factor, batches, epochs, ask_epoch, model_save_path):
         super(MyCallback, self).__init__()
         self.model = model
         self.patience = patience # specifies how many epochs without improvement before learning rate is adjusted
@@ -16,6 +17,7 @@ class MyCallback(keras.callbacks.Callback):
         self.epochs = epochs
         self.ask_epoch = ask_epoch
         self.ask_epoch_initial = ask_epoch # save this value to restore if restarting training
+        self.model_save_path = model_save_path
 
         # callback variables
         self.count = 0 # how many times lr has been reduced without improvement
@@ -26,6 +28,13 @@ class MyCallback(keras.callbacks.Callback):
         self.lowest_vloss = np.inf # set lowest validation loss to infinity initially
         self.best_weights = self.model.get_weights() # set best weights to model's initial weights
         self.initial_weights = self.model.get_weights()   # save initial weights if they have to get restored
+        self.model_checkpoint = ModelCheckpoint(
+            filepath=self.model_save_path,
+            save_best_only=True,  # chỉ lưu model tốt nhất
+            monitor='val_loss',  # kiểm tra theo validation loss
+            mode='min',  # chọn model có validation loss nhỏ nhất
+            verbose=1  # hiển thị thông báo khi lưu model
+        )
 
     # Define a function that will run when train begins
     def on_train_begin(self, logs=None):
@@ -55,7 +64,6 @@ class MyCallback(keras.callbacks.Callback):
         # set the weights of the model to the best weights
         self.model.set_weights(self.best_weights)
 
-
     def on_train_batch_end(self, batch, logs=None):
         # get batch accuracy and loss
         acc = logs.get('accuracy') * 100
@@ -81,6 +89,11 @@ class MyCallback(keras.callbacks.Callback):
         v_acc = logs.get('val_accuracy')  # get validation accuracy
         loss = logs.get('loss')  # get training loss for this epoch
         v_loss = logs.get('val_loss')  # get the validation loss for this epoch
+
+        if v_loss < self.lowest_vloss:
+            self.lowest_vloss = v_loss
+            self.best_weights = self.model.get_weights()
+            self.model_checkpoint.on_epoch_end(epoch, logs)
 
         if acc < self.threshold: # if training accuracy is below threshold adjust lr based on training accuracy
             monitor = 'accuracy'
