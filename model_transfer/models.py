@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras import layers as L
 from tensorflow import keras
 from keras import layers
-from keras.applications import resnet50, vgg16
+from keras.applications import resnet50, vgg16, EfficientNetV2S
 from keras.models import Model
 from model_transfer.config import MobileViT 
 
@@ -136,3 +136,21 @@ def VGG16_model(img_shape, class_count):
     
     return model
 
+# EfficientNetV2S
+def EfficientNetV2S_model(img_shape, class_count):
+    base_model = vgg16.VGG16(input_shape=img_shape, include_top=False, weights="imagenet")
+    
+    for layer in base_model.layers:
+        layer.trainable = False
+    
+    last_layer = base_model.get_layer('top_conv')
+    last_output = last_layer.output
+    
+    x = layers.GlobalAveragePooling2D()(last_output)
+    x = layers.Flatten()(x)
+    x = layers.Dense(class_count, activation='softmax')(x)
+    
+    model = Model(base_model.input, x) 
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss=keras.losses.categorical_crossentropy(), metrics=['accuracy'])
+    
+    return model

@@ -34,7 +34,7 @@ def split_data(data_dir):
     files, classes = define_paths(data_dir)
     df = define_df(files, classes)
     strat = df['labels']
-    train_df, dummy_df = train_test_split(df,  train_size= 0.8, shuffle= True, random_state= 123, stratify= strat)
+    train_df, dummy_df = train_test_split(df,  train_size= 0.6, shuffle= True, random_state= 123, stratify= strat)
 
     # valid and test dataframe
     strat = dummy_df['labels']
@@ -64,10 +64,18 @@ def create_gens(train_df, valid_df, test_df, batch_size, img_size, model_name):
         if model_name == 'VGG16':
             return tf.keras.applications.vgg16.preprocess_input(img)
         if model_name == 'MobileViT':
-            img = tf.image.random_flip_left_right(img)
+            img = img / 255.0
             return img   
+        if model_name == 'EfficientNetV2S':
+            return tf.keras.applications.efficientnet_v2.preprocess_input(img)
 
-    tr_gen = ImageDataGenerator(preprocessing_function= scalar)
+    tr_gen = ImageDataGenerator(preprocessing_function= scalar,
+                                rotation_range=40,
+                                width_shift_range=0.2,
+                                height_shift_range=0.2,
+                                shear_range=0.2,
+                                zoom_range=0.2,
+                                horizontal_flip=True)
     ts_gen = ImageDataGenerator(preprocessing_function= scalar)
 
     train_gen = tr_gen.flow_from_dataframe(train_df, x_col= 'filepaths', y_col= 'labels', target_size= img_size, class_mode= 'categorical',
