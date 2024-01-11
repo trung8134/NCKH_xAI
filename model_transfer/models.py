@@ -138,7 +138,7 @@ def VGG16_model(img_shape, class_count):
 
 # EfficientNetV2S
 def EfficientNetV2S_model(img_shape, class_count):
-    base_model = vgg16.VGG16(input_shape=img_shape, include_top=False, weights="imagenet")
+    base_model = EfficientNetV2S(input_shape=img_shape, include_top=False, weights="imagenet")
     
     for layer in base_model.layers:
         layer.trainable = False
