@@ -135,6 +135,8 @@ def VGG16_model(img_shape, class_count):
     model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
     
     return model
+
+# VGGViT
 def VGG16ViT_model(img_shape, class_count):
     base_model = vgg16.VGG16(input_shape=img_shape, include_top=False, weights="imagenet")
     
@@ -167,7 +169,7 @@ def VGG16ViT_model(img_shape, class_count):
     flatten = layers.Flatten()(pooling_block5)
     
     # output layer 
-    output_layer = tf.keras.layers.Dense(11, activation='softmax')(flatten)
+    output_layer = tf.keras.layers.Dense(class_count, activation='softmax')(flatten)
     
     # Create the final model
     model = models.Model(inputs=base_model.input, outputs=output_layer)
