@@ -148,29 +148,29 @@ def VGG16ViT_model(img_shape, class_count):
     block4_conv3_output = base_model.get_layer('block4_conv3').output
     
     # Attention mechanism
-    query_cnn_layer = tf.keras.layers.Conv2D(filters=512, kernel_size=(3, 3), padding='same', activation='relu', name='conv_attention_1')
+    query_cnn_layer = tensorflow.keras.layers.Conv2D(filters=512, kernel_size=(3, 3), padding='same', activation='relu', name='conv_attention_1')
     query_seq_encoding = query_cnn_layer(block4_conv3_output)
     
-    value_cnn_layer = tf.keras.layers.Conv2D(filters=512, kernel_size=(3, 3), padding='same', activation='relu', name='conv_attention_2')
+    value_cnn_layer = tensorflow.keras.layers.Conv2D(filters=512, kernel_size=(3, 3), padding='same', activation='relu', name='conv_attention_2')
     value_seq_encoding = value_cnn_layer(block4_conv3_output)
     
-    query_value_attention_seq = tf.keras.layers.Attention()([query_seq_encoding, value_seq_encoding])
+    query_value_attention_seq = tensorflow.keras.layers.Attention()([query_seq_encoding, value_seq_encoding])
     
     # MaxPooling2D for query_value_attention_seq.
-    pooling_behind_attention = tf.keras.layers.MaxPooling2D(name='block4_pool')(query_value_attention_seq)
+    pooling_behind_attention = tensorflow.keras.layers.MaxPooling2D(name='block4_pool')(query_value_attention_seq)
     
     block5_conv1_layer = base_model.get_layer('block5_conv1')(pooling_behind_attention)
     block5_conv2_layer = base_model.get_layer('block5_conv2')(block5_conv1_layer)
     block5_conv3_layer = base_model.get_layer('block5_conv3')(block5_conv2_layer)
     
     # MaxPooling2D for block5
-    pooling_block5 = tf.keras.layers.MaxPooling2D(name='block5_pool')(block5_conv3_layer)
+    pooling_block5 = tensorflow.keras.layers.MaxPooling2D(name='block5_pool')(block5_conv3_layer)
     
     # Flatten
     flatten = layers.Flatten()(pooling_block5)
     
     # output layer 
-    output_layer = tf.keras.layers.Dense(class_count, activation='softmax')(flatten)
+    output_layer = tensorflow.keras.layers.Dense(class_count, activation='softmax')(flatten)
     
     # Create the final model
     model = models.Model(inputs=base_model.input, outputs=output_layer)
