@@ -31,7 +31,7 @@ def MobileViT_S(input_shape, class_count):
     
     model = Model(model.input, x)
     
-    optimizer = keras.optimizers.AdamW(weight_decay=0.01, learning_rate=0.002)
+    optimizer = keras.optimizers.AdamW(weight_decay=0.01, learning_rate=0.0002)
     loss_function = keras.losses.CategoricalCrossentropy(label_smoothing=0.1)
     model.compile(optimizer=optimizer, loss=loss_function, metrics=['accuracy'])
     
@@ -62,8 +62,8 @@ def MobileViT_XS(input_shape, class_count):
     
     model = Model(model.input, x)
     
-    optimizer = keras.optimizers.AdamW(weight_decay=0.01, learning_rate=0.002)
-    loss_function = keras.losses.CategoricalCrossentropy(label_smoothing=0.1)
+    optimizer = keras.optimizers.AdamW(weight_decay=0.01, learning_rate=0.0002)
+    loss_function = keras.losses.CategoricalCrossentropy()
     model.compile(optimizer=optimizer, loss=loss_function, metrics=['accuracy'])
     
     return model
@@ -92,7 +92,7 @@ def MobileViT_XXS(input_shape, class_count):
     
     model = Model(model.input, x)
     
-    optimizer = keras.optimizers.AdamW(weight_decay=0.01, learning_rate=0.002)
+    optimizer = keras.optimizers.AdamW(weight_decay=0.01, learning_rate=0.0002)
     loss_function = keras.losses.CategoricalCrossentropy(label_smoothing=0.1)
     model.compile(optimizer=optimizer, loss=loss_function, metrics=['accuracy'])
     
@@ -113,7 +113,7 @@ def ResNet50_model(img_shape, class_count):
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
     
     return model
 
@@ -132,7 +132,7 @@ def VGG16_model(img_shape, class_count):
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
     
     return model
 
@@ -151,6 +151,6 @@ def EfficientNetV2S_model(img_shape, class_count):
     x = layers.Dense(class_count, activation='softmax')(x)
     
     model = Model(base_model.input, x) 
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
     
     return model
