@@ -49,7 +49,7 @@ def VGG16ViT_model(img_shape, class_count):
     base_model = vgg16.VGG16(input_shape=img_shape, include_top=False, weights="imagenet")
     
     for layer in base_model.layers:
-    layer.trainable = False
+        layer.trainable = False
     
     # Get the output of block4_conv3
     block1_conv2_output = base_model.get_layer('block1_conv2').output
